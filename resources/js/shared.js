@@ -9,3 +9,10 @@ import Alpine from 'alpinejs';
 window.Alpine = Alpine;
 
 Alpine.start();
+
+// jQuery
+import $ from 'jquery';
+window.$ = window.jQuery = $; // Make globally available
+
+// jQuery Validation
+import 'jquery-validation';
