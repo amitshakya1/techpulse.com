@@ -15,10 +15,20 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Scripts -->
+    <!-- External CSS from CDN (e.g., Font Awesome, custom libraries) -->
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> --}}
+
+    <!-- Local CSS from public folder -->
+    {{-- <link rel="stylesheet" href="{{ asset('css/custom.css') }}"> --}}
+
+    <!-- Vite Compiled Assets (Your main CSS/JS) -->
     @vite(['resources/css/web.css', 'resources/js/web.js'])
-    @stack('head-script')
+
+    <!-- Page-specific styles from child views -->
     @stack('style')
+
+    <!-- Page-specific head scripts (scripts that need to be in <head>) -->
+    @stack('head-script')
 </head>
 
 <body class="font-sans text-gray-900 antialiased">
@@ -38,6 +48,14 @@
 
         @include('layouts.web.footer')
     </div>
+
+    <!-- External JS from CDN -->
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> --}}
+
+    <!-- Local JS from public folder -->
+    {{-- <script src="{{ asset('js/custom.js') }}"></script> --}}
+
+    <!-- Page-specific scripts from child views -->
     @stack('script')
 </body>
 
