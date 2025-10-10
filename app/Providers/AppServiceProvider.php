@@ -19,6 +19,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if ($this->app->runningInConsole() && $this->app->environment('local')) {
+            $urls = [
+                'Website' => config('app.url'),
+                'Admin site' => config('app.url_admin'),
+                'API site' => config('app.url_api'),
+            ];
+
+            foreach ($urls as $name => $url) {
+                echo "[{$name}] => {$url}\n";
+            }
+        }
     }
 }
