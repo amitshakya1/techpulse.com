@@ -64,40 +64,9 @@ return Application::configure(basePath: dirname(__DIR__))
             $errorView = "errors.{$subdomain}.{$statusCode}";
 
             if (view()->exists($errorView)) {
-                try {
-                    return response()->view($errorView, [
-                        'exception' => $e
-                    ], $statusCode);
-                } catch (\Throwable $viewException) {
-                    // If view rendering fails, return simple HTML
-                    $errorTitle = match ($statusCode) {
-                        404 => '404 - Not Found',
-                        403 => '403 - Forbidden',
-                        419 => '419 - Session Expired',
-                        500 => '500 - Server Error',
-                        503 => '503 - Service Unavailable',
-                        default => "{$statusCode} - Error",
-                    };
-
-                    return response()->make("
-                        <!DOCTYPE html>
-                        <html>
-                        <head>
-                            <title>{$errorTitle}</title>
-                            <style>
-                                body { font-family: sans-serif; text-align: center; padding: 50px; }
-                                h1 { font-size: 4rem; margin: 0; }
-                                p { font-size: 1.2rem; color: #666; }
-                            </style>
-                        </head>
-                        <body>
-                            <h1>{$statusCode}</h1>
-                            <p>{$errorTitle}</p>
-                            <a href='/'>Go to Homepage</a>
-                        </body>
-                        </html>
-                    ", $statusCode);
-                }
+                return response()->view($errorView, [
+                    'exception' => $e
+                ], $statusCode);
             }
 
             // Fallback to Laravel's default error handling
