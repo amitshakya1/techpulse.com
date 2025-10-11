@@ -27,25 +27,21 @@
                         </div>
                         <div>
                             <x-admin.social-login />
-                            <form x-data="formValidator({
-                                fields: {
-                                    name: { required: true, min: 3 },
-                                    email: { required: true, email: true }
-                                }
-                            })" @submit="submitForm">
+                            <form id="login-form">
                                 <div class="space-y-5">
                                     <!-- Email -->
                                     <div>
                                         <x-admin.form.label label="Email" required />
-                                        <x-admin.form.input type="email" model="email"
-                                            placeholder="info@gmail.com" />
-                                        <span x-text="errors.email" class="text-red-500"></span>
+                                        <input type="email" name="email" placeholder="info@gmail.com"
+                                            class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800" />
+                                        <span class="email-error text-red-500"></span>
+
                                     </div>
                                     <!-- Password -->
                                     <div>
                                         <x-admin.form.label label="Password" required />
                                         <div x-data="{ showPassword: false }" class="relative">
-                                            <input :type="showPassword ? 'text' : 'password'" x-model="password"
+                                            <input :type="showPassword ? 'text' : 'password'" name="password"
                                                 placeholder="Enter your password"
                                                 class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800" />
                                             <span @click="showPassword = !showPassword"
@@ -66,7 +62,7 @@
                                                 </svg>
                                             </span>
                                         </div>
-                                        <span x-text="errors.password" class="text-red-500"></span>
+                                        <span class="password-error text-red-500"></span>
                                     </div>
                                     <!-- Checkbox -->
                                     <div class="flex items-center justify-between">
@@ -154,6 +150,46 @@
         </div>
     </div>
     @push('script')
-        <script></script>
+        <script src="https://cdn.jsdelivr.net/npm/just-validate@4.3.0/dist/just-validate.production.min.js"></script>
+        <script>
+            const validation = new JustValidate('#login-form');
+
+            validation
+                .addField('input[name="email"]', [{
+                        rule: 'required',
+                        errorMessage: 'Please enter email',
+                    },
+                    {
+                        rule: 'email',
+                        errorMessage: 'Please enter a valid email',
+                    },
+                ], {
+                    errorsContainer: '.email-error' // <-- custom container
+                })
+                .addField('input[name="password"]', [{
+                    rule: 'required',
+                    errorMessage: 'Please enter password',
+                }, ], {
+                    errorsContainer: '.password-error' // <-- custom container
+                })
+                .onSuccess((event) => {
+                    event.preventDefault(); // ✅ Prevent default form submission
+                    let formData = new FormData(event.target);
+
+                    fetch('{{ route('admin.login') }}', {
+                            method: 'POST',
+                            body: formData
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            event.target.reset();
+                            alert(data.message);
+                        })
+                        .catch(err => {
+                            alert('Something went wrong');
+                        });
+                });
+        </script>
     @endpush
+
 </x-admin.guest-layout>
