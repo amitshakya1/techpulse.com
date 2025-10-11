@@ -18,68 +18,69 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        // Comprehensive HTTP Exception Handler
-        $exceptions->render(function (Throwable $e, $request) {
-            // Get status code from exception
-            $statusCode = 500; // Default to 500
+        if (app()->environment('production')) {
+            // Comprehensive HTTP Exception Handler
+            $exceptions->render(function (Throwable $e, $request) {
+                // Get status code from exception
+                $statusCode = 500; // Default to 500
     
-            if ($e instanceof HttpException) {
-                $statusCode = $e->getStatusCode();
-            } elseif ($e instanceof NotFoundHttpException) {
-                $statusCode = 404;
-            } elseif ($e instanceof AccessDeniedHttpException) {
-                $statusCode = 403;
-            } elseif ($e instanceof TokenMismatchException) {
-                $statusCode = 419;
-            }
+                if ($e instanceof HttpException) {
+                    $statusCode = $e->getStatusCode();
+                } elseif ($e instanceof NotFoundHttpException) {
+                    $statusCode = 404;
+                } elseif ($e instanceof AccessDeniedHttpException) {
+                    $statusCode = 403;
+                } elseif ($e instanceof TokenMismatchException) {
+                    $statusCode = 419;
+                }
 
-            $host = $request->getHost();
+                $host = $request->getHost();
 
-            // Determine subdomain
-            $subdomain = 'www'; // Default to www
-            if (str_starts_with($host, 'admin.')) {
-                $subdomain = 'admin';
-            } elseif (str_starts_with($host, 'api.')) {
-                $subdomain = 'api';
-            }
+                // Determine subdomain
+                $subdomain = 'www'; // Default to www
+                if (str_starts_with($host, 'admin.')) {
+                    $subdomain = 'admin';
+                } elseif (str_starts_with($host, 'api.')) {
+                    $subdomain = 'api';
+                }
 
-            // Handle API requests with JSON response
-            if ($subdomain === 'api' || $request->expectsJson()) {
-                $message = match ($statusCode) {
-                    404 => 'Resource not found',
-                    403 => 'Access forbidden',
-                    419 => 'CSRF token mismatch',
-                    500 => 'Internal server error',
-                    503 => 'Service unavailable',
-                    default => $e->getMessage() ?: 'An error occurred',
-                };
-
-                return response()->json([
-                    'message' => $message,
-                    'status' => $statusCode
-                ], $statusCode);
-            }
-
-            // Check if custom error view exists for this subdomain and status code
-            $errorView = "errors.{$subdomain}.{$statusCode}";
-
-            if (view()->exists($errorView)) {
-                try {
-                    return response()->view($errorView, [
-                        'exception' => $e
-                    ], $statusCode);
-                } catch (\Throwable $viewException) {
-                    // If view rendering fails, return simple HTML
-                    $errorTitle = match ($statusCode) {
-                        404 => '404 - Not Found',
-                        403 => '403 - Forbidden',
-                        419 => '419 - Session Expired',
-                        500 => '500 - Server Error',
-                        503 => '503 - Service Unavailable',
-                        default => "{$statusCode} - Error",
+                // Handle API requests with JSON response
+                if ($subdomain === 'api' || $request->expectsJson()) {
+                    $message = match ($statusCode) {
+                        404 => 'Resource not found',
+                        403 => 'Access forbidden',
+                        419 => 'CSRF token mismatch',
+                        500 => 'Internal server error',
+                        503 => 'Service unavailable',
+                        default => $e->getMessage() ?: 'An error occurred',
                     };
 
-                    return response()->make("
+                    return response()->json([
+                        'message' => $message,
+                        'status' => $statusCode
+                    ], $statusCode);
+                }
+
+                // Check if custom error view exists for this subdomain and status code
+                $errorView = "errors.{$subdomain}.{$statusCode}";
+
+                if (view()->exists($errorView)) {
+                    try {
+                        return response()->view($errorView, [
+                            'exception' => $e
+                        ], $statusCode);
+                    } catch (\Throwable $viewException) {
+                        // If view rendering fails, return simple HTML
+                        $errorTitle = match ($statusCode) {
+                            404 => '404 - Not Found',
+                            403 => '403 - Forbidden',
+                            419 => '419 - Session Expired',
+                            500 => '500 - Server Error',
+                            503 => '503 - Service Unavailable',
+                            default => "{$statusCode} - Error",
+                        };
+
+                        return response()->make("
                         <!DOCTYPE html>
                         <html>
                         <head>
@@ -97,10 +98,12 @@ return Application::configure(basePath: dirname(__DIR__))
                         </body>
                         </html>
                     ", $statusCode);
+                    }
                 }
-            }
 
-            // Fallback to Laravel's default error handling
-            return null;
-        });
+                // Fallback to Laravel's default error handling
+                return null;
+            });
+        }
+
     })->create();

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Auth\LoginRequest;
+use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -13,6 +15,7 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
+    use ApiResponse;
     public function showLogin()
     {
         return view('admin.auth.login');
@@ -63,29 +66,28 @@ class AuthController extends Controller
     /**
      * Login with email & password
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $validated = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
-        ]);
+        try {
+            $validated = $request->validated();
 
-        $user = User::where('email', $validated['email'])->first();
+            $user = User::where('email', $validated['email'])->first();
 
-        if (!$user || !Hash::check($validated['password'], $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['Invalid credentials.'],
-            ]);
+            if (!$user || !Hash::check($validated['password'], $user->password)) {
+                return $this->errorResponse('Invalid credentials.', 401);
+            }
+
+            Auth::login($user, $request->filled('remember'));
+
+            // $token = $user->createToken('admin-auth')->plainTextToken;
+
+            return $this->successResponse([
+                // 'token' => $token,
+                'user' => $user,
+            ], 'Login successful');
+        } catch (\Exception $e) {
+            return $this->errorResponse($e->getMessage(), 500);
         }
-
-        $token = $user->createToken('admin-auth')->plainTextToken;
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Login successful',
-            'token' => $token,
-            'user' => $user,
-        ]);
     }
 
     /**
