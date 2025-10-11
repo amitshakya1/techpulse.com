@@ -126,4 +126,33 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'brand' => [
+        'favicon' => env('APP_FAVICON'),
+        'logo' => env('APP_LOGO'),
+        'logo2' => env('APP_LOGO2'),
+
+        'email' => env('APP_CONTACT_EMAIL'),
+        'email2' => env('APP_CONTACT_EMAIL2'),
+        'phone' => env('APP_CONTACT_PHONE'),
+        'phone2' => env('APP_CONTACT_PHONE2'),
+        'address' => env('APP_CONTACT_ADDRESS'),
+        'address2' => env('APP_CONTACT_ADDRESS2'),
+
+        'gst' => [
+            'name' => env('APP_GST_NAME'),
+            'number' => env('APP_GST_NUMBER'),
+            'address' => env('APP_GST_ADDRESS'),
+        ],
+
+        'social' => [
+            'facebook' => env('APP_SOCIAL_FACEBOOK'),
+            'instagram' => env('APP_SOCIAL_INSTAGRAM'),
+            'twitter' => env('APP_SOCIAL_TWITTER'),
+            'linkedin' => env('APP_SOCIAL_LINKEDIN'),
+            'youtube' => env('APP_SOCIAL_YOUTUBE'),
+            'whatsapp' => env('APP_SOCIAL_WHATSAPP'),
+            'telegram' => env('APP_SOCIAL_TELEGRAM'),
+        ],
+    ],
+
 ];

@@ -16,6 +16,10 @@
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
         @vite(['resources/css/admin.css', 'resources/js/admin.js'])
     @endif
+    @stack('style')
+
+    <!-- Page-specific head scripts (scripts that need to be in <head>) -->
+    @stack('head-script')
 </head>
 
 <body class="font-sans antialiased">
@@ -36,6 +40,7 @@
             {{ $slot }}
         </main>
     </div>
+    @stack('script')
 </body>
 
 </html>
