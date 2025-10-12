@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-trait ApiResponse
+trait ApiResponseTrait
 {
     /**
      * Return a success response.
