@@ -8,6 +8,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Illuminate\Session\TokenMismatchException;
 use App\Http\Middleware\RedirectIfAuthenticated;
+use Illuminate\Console\Scheduling\Schedule;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -19,6 +20,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'guest' => RedirectIfAuthenticated::class,
         ]);
+    })
+    ->withSchedule(function (Schedule $schedule) {
+        $schedule->command('backup:run')->dailyAt('02:00');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         if (app()->environment('production')) {

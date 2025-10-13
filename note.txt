@@ -1,0 +1,11 @@
+| **Purpose**         | **Package**                    |
+| ------------------- | ------------------------------ |
+| Roles & Permissions | `spatie/laravel-permission`    |
+| Activity Logs       | `spatie/laravel-activitylog`   |
+| Media Uploads       | `spatie/laravel-medialibrary`  |
+| Sluggable URLs      | `cviebrock/eloquent-sluggable` |
+| Caching             | `predis/predis` or Redis       |
+| Backup              | `spatie/laravel-backup`        |
+| Debugging           | `barryvdh/laravel-debugbar`    |
+| IDE Helper          | `barryvdh/laravel-ide-helper`  |
+| Excel/CSV Export    | `maatwebsite/excel`            |

@@ -12,6 +12,7 @@ class UserController extends Controller
     // Show dashboard
     public function dashboard()
     {
+        // activity()->log('Look mum, I logged something');
         $user = Auth::user();
         return view('admin.dashboard', compact('user'));
     }
