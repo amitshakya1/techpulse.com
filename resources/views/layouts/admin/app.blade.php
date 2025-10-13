@@ -22,23 +22,23 @@
     @stack('head-script')
 </head>
 
-<body class="font-sans antialiased">
-    <div class="min-h-screen bg-gray-100">
-        @include('layouts.navigation')
+<body x-data="{ page: 'ecommerce', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }" x-init="darkMode = JSON.parse(localStorage.getItem('darkMode'));
+$watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))" :class="{ 'dark bg-gray-900': darkMode === true }">
+    <x.admin-preloader />
+    <div class="flex h-screen overflow-hidden">
+        @include('layouts.admin.sidebar')
 
-        <!-- Page Heading -->
-        @isset($header)
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
+        <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
+            <x.admin-overlay />
+
+            @include('layouts.admin.header')
+            <main>
+                <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
+                    {{ $slot }}
                 </div>
-            </header>
-        @endisset
 
-        <!-- Page Content -->
-        <main>
-            {{ $slot }}
-        </main>
+            </main>
+        </div>
     </div>
 
     @stack('script')

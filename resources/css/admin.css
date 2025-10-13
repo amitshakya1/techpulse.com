@@ -2,7 +2,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
 /* Tailwind dark variant handled by prefix 'dark:' */
+@custom-variant dark (&:is(.dark *));
 
+/* ----------------- Base Styles ----------------- */
 @layer base {
 
     *,
@@ -19,33 +21,24 @@
     }
 
     body {
-        @apply relative text-base font-normal font-outfit bg-gray-50 dark:bg-gray-900;
+        @apply relative text-base font-normal font-outfit z-1 bg-gray-50 dark:bg-gray-900;
     }
 }
 
+/* ----------------- Custom Utilities ----------------- */
 @layer utilities {
 
-    /* Remove Date & Time Icon */
-    input[type="date"]::-webkit-inner-spin-button,
-    input[type="time"]::-webkit-inner-spin-button,
-    input[type="date"]::-webkit-calendar-picker-indicator,
-    input[type="time"]::-webkit-calendar-picker-indicator {
-        display: none;
-        -webkit-appearance: none;
-    }
-}
-
-@layer components {
+    /* Menu Utilities */
     .menu-item {
         @apply relative flex items-center gap-3 px-3 py-2 font-medium rounded-lg text-theme-sm;
     }
 
     .menu-item-active {
-        @apply bg-brand-50 text-brand-500 dark:bg-brand-500/12 dark:text-brand-400;
+        @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
     }
 
     .menu-item-inactive {
-        @apply text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5 dark:hover:text-gray-300;
+        @apply text-gray-700 hover:bg-gray-100 hover:text-gray-700 dark:text-gray-300 dark:hover:bg-white/5;
     }
 
     .menu-item-icon-active {
@@ -73,7 +66,7 @@
     }
 
     .menu-dropdown-item-active {
-        @apply bg-brand-50 text-brand-500 dark:bg-brand-500/12 dark:text-brand-400;
+        @apply bg-brand-50 text-brand-500 dark:bg-brand-500/[0.12] dark:text-brand-400;
     }
 
     .menu-dropdown-item-inactive {
@@ -92,6 +85,7 @@
         @apply bg-brand-50 group-hover:bg-brand-100 dark:bg-brand-500/15 dark:group-hover:bg-brand-500/20;
     }
 
+    /* Scrollbar Utilities */
     .no-scrollbar {
         &::-webkit-scrollbar {
             display: none;
@@ -103,7 +97,7 @@
 
     .custom-scrollbar {
         &::-webkit-scrollbar {
-            @apply w-1.5 h-1.5;
+            @apply w-6 h-6;
         }
 
         &::-webkit-scrollbar-track {
@@ -119,95 +113,16 @@
         background-color: #344054;
     }
 
-    /* Sidebar hover effects */
-    .sidebar:hover {
-        width: 290px;
-    }
-
-    .sidebar:hover .logo {
-        display: block;
-    }
-
-    .sidebar:hover .logo-icon {
+    /* Remove Date/Time picker arrows */
+    input[type="date"]::-webkit-inner-spin-button,
+    input[type="time"]::-webkit-inner-spin-button,
+    input[type="date"]::-webkit-calendar-picker-indicator,
+    input[type="time"]::-webkit-calendar-picker-indicator {
         display: none;
+        -webkit-appearance: none;
     }
 
-    .sidebar:hover .sidebar-header {
-        justify-content: space-between;
-    }
-
-    .sidebar:hover .menu-group-title {
-        display: block;
-    }
-
-    .sidebar:hover .menu-group-icon {
-        display: none;
-    }
-
-    .sidebar:hover .menu-item-text {
-        display: inline;
-    }
-
-    .sidebar:hover .menu-item-arrow {
-        display: block;
-    }
-
-    .sidebar:hover .menu-dropdown {
-        display: flex;
-    }
-
-    .tableCheckbox:checked~span {
-        @apply border-brand-500 bg-brand-500;
-    }
-
-    .tableCheckbox:checked~span span {
-        @apply opacity-100;
-    }
-
-    /* third-party libraries CSS cleaned */
-    .apexcharts-legend-text {
-        @apply text-gray-700 dark:text-gray-400;
-    }
-
-    .apexcharts-text {
-        @apply fill-gray-700 dark:fill-gray-400;
-    }
-
-    .apexcharts-tooltip.apexcharts-theme-light {
-        @apply shadow-theme-sm gap-1 rounded-lg border-gray-200 p-3 dark:border-gray-800 dark:bg-gray-900;
-    }
-
-    .apexcharts-tooltip-marker {
-        @apply mr-1.5 h-1.5 w-1.5;
-    }
-
-    /* Flatpickr cleaned */
-    .flatpickr-wrapper {
-        @apply w-full;
-    }
-
-    .flatpickr-calendar {
-        @apply dark:bg-gray-dark dark:shadow-theme-xl mt-2 rounded-xl p-5 text-gray-500 dark:text-gray-400;
-    }
-
-    .flatpickr-current-month .cur-month,
-    .flatpickr-current-month input.cur-year {
-        @apply h-auto pt-0 text-lg font-medium text-gray-800 dark:text-white/90;
-    }
-
-    /* Task drag & checkbox */
-    .task {
-        transition: all 0.2s ease;
-    }
-
-    .task.is-dragging {
-        @apply rounded-lg shadow-lg opacity-80 cursor-grabbing;
-    }
-
-    .taskCheckbox:checked~.box {
-        @apply border-brand-500 bg-brand-500 dark:border-brand-500;
-    }
-
+    /* Task Checkbox */
     .taskCheckbox:checked~.box span {
         @apply opacity-100;
     }
@@ -215,4 +130,107 @@
     .taskCheckbox:checked~p {
         @apply text-gray-400 line-through;
     }
+
+    .taskCheckbox:checked~.box {
+        @apply border-brand-500 bg-brand-500 dark:border-brand-500;
+    }
+
+    /* Task Dragging */
+    .task {
+        transition: all 0.2s ease;
+    }
+
+    .task.is-dragging {
+        border-radius: 0.75rem;
+        box-shadow: 0 1px 3px rgba(16, 24, 40, 0.1), 0 1px 2px rgba(16, 24, 40, 0.06);
+        opacity: 0.8;
+        cursor: grabbing;
+    }
+
+    /* Swiper Carousels */
+    .swiper-button-prev svg,
+    .swiper-button-next svg {
+        @apply h-auto w-auto;
+    }
+
+    .carouselTwo .swiper-button-next:after,
+    .carouselTwo .swiper-button-prev:after,
+    .carouselFour .swiper-button-next:after,
+    .carouselFour .swiper-button-prev:after {
+        @apply hidden;
+    }
+
+    /* Flatpickr */
+    .flatpickr-wrapper {
+        @apply w-full;
+    }
+
+    .flatpickr-calendar {
+        @apply dark:bg-gray-900 mt-2 rounded-xl p-5 text-gray-500 dark:text-gray-400 shadow-theme-xl;
+    }
+
+    .flatpickr-day.selected,
+    .flatpickr-day.startRange,
+    .flatpickr-day.endRange {
+        @apply text-white dark:text-white bg-brand-500 border-brand-500;
+    }
+}
+
+/* ----------------- Sidebar Hover ----------------- */
+.sidebar:hover {
+    width: 290px;
+}
+
+.sidebar:hover .logo {
+    display: block;
+}
+
+.sidebar:hover .logo-icon {
+    display: none;
+}
+
+.sidebar:hover .sidebar-header {
+    justify-content: space-between;
+}
+
+.sidebar:hover .menu-group-title {
+    display: block;
+}
+
+.sidebar:hover .menu-group-icon {
+    display: none;
+}
+
+.sidebar:hover .menu-item-text {
+    display: inline;
+}
+
+.sidebar:hover .menu-item-arrow {
+    display: block;
+}
+
+.sidebar:hover .menu-dropdown {
+    display: flex;
+}
+
+/* ----------------- Table Checkbox ----------------- */
+.tableCheckbox:checked~span span {
+    @apply opacity-100;
+}
+
+.tableCheckbox:checked~span {
+    @apply border-brand-500 bg-brand-500;
+}
+
+/* ----------------- Third-Party Libraries Fix ----------------- */
+.apexcharts-legend-text {
+    @apply text-gray-700 dark:text-gray-400;
+}
+
+.apexcharts-text {
+    @apply fill-gray-700 dark:fill-gray-400;
+}
+
+.apexcharts-tooltip.apexcharts-theme-light {
+    @apply shadow-theme-sm gap-1 rounded-lg border-gray-200 p-3 dark:border-gray-800 dark:bg-gray-900;
 }

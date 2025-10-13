@@ -10,6 +10,10 @@ window.Alpine = Alpine;
 
 Alpine.start();
 
+window.route = function (url) {
+    window.location.href = url;
+}
+
 // jQuery
 // import $ from 'jquery';
 // window.$ = window.jQuery = $; // Make globally available

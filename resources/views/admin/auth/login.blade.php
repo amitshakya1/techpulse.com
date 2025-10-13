@@ -161,7 +161,9 @@
                         })
                         .then(response => {
                             event.target.reset();
-                            alert(response.data.message);
+                            route("{{ route('admin.dashboard') }}");
+                            // window.location.href = "{{ route('admin.dashboard') }}";
+                            // alert(response.data.message);
                         })
                         // Display errors
                         .catch(error => {
