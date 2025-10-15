@@ -93,7 +93,7 @@
                     <x-admin.common-grid-shape />
                     <div class="flex flex-col items-center max-w-xs">
                         <a href="index.html" class="block mb-4">
-                            <img src="{{ config('app.brand.logo.default') }}" alt="{{ config('app.name') }}" />
+                            <img src="{{ config('app.brand.logo.dark') }}" alt="{{ config('app.name') }}" />
                         </a>
                         <p class="text-center text-gray-400 dark:text-white/60">
                             Free and Open-Source Tailwind CSS Admin Dashboard Template

@@ -36,7 +36,7 @@
 
 
 
-            <a href="{{ route('admin.dashboard') }}">
+            <a href="{{ route('admin.dashboard') }}" class="lg:hidden">
                 <img class="dark:hidden" src="{{ config('app.brand.logo.default') }}" alt="Logo" />
                 <img class="hidden dark:block" src="{{ config('app.brand.logo.dark') }}" alt="Logo" />
             </a>

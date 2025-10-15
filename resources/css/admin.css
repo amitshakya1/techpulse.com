@@ -177,9 +177,9 @@
 }
 
 /* ----------------- Sidebar Hover ----------------- */
-.sidebar:hover {
+/* .sidebar:hover {
     width: 290px;
-}
+} */
 
 .sidebar:hover .logo {
     display: block;
