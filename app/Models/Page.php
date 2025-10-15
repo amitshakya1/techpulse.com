@@ -7,13 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Cviebrock\EloquentSluggable\Sluggable;
 
-class Page extends Model
+class Page extends BaseModel
 {
-    use HasFactory, SoftDeletes, Sluggable;
-
-    public const STATUS_ACTIVE = 'active';
-    public const STATUS_DRAFT = 'draft';
-    public const STATUS_ARCHIVED = 'archived';
+    use Sluggable;
 
     protected $fillable = [
         'title',

@@ -7,8 +7,10 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Illuminate\Session\TokenMismatchException;
-use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Console\Scheduling\Schedule;
+use App\Http\Middleware\RedirectIfAuthenticated;
+use App\Http\Middleware\ResolveStore;
+use App\Http\Middleware\EnsureStoreSelected;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -19,6 +21,10 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'guest' => RedirectIfAuthenticated::class,
+        ]);
+        $middleware->group('web', [
+            ResolveStore::class,
+            EnsureStoreSelected::class,
         ]);
     })
     ->withSchedule(function (Schedule $schedule) {

@@ -161,9 +161,11 @@
                         })
                         .then(response => {
                             event.target.reset();
-                            route("{{ route('admin.dashboard') }}");
-                            // window.location.href = "{{ route('admin.dashboard') }}";
-                            // alert(response.data.message);
+                            if (response.data.success) {
+                                route("{{ route('admin.dashboard') }}");
+                            } else {
+                                alert(response.data.message);
+                            }
                         })
                         // Display errors
                         .catch(error => {
