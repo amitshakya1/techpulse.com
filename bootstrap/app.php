@@ -47,6 +47,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withSchedule(function (Schedule $schedule) {
         $schedule->command('backup:run')->dailyAt('02:00');
+        $schedule->command('sitemap:generate')->dailyAt('03:00');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         if (app()->environment('production')) {
