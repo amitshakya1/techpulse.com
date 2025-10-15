@@ -27,11 +27,11 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         // Append to web middleware group (don't replace it!)
-        $middleware->appendToGroup('web', [
-            ResolveStore::class,
-            EnsureStoreSelected::class,
-        ]);
-
+        // $middleware->appendToGroup('web', [
+        //     ResolveStore::class,
+        //     EnsureStoreSelected::class,
+        // ]);
+    
         // Redirect guests based on subdomain
         $middleware->redirectGuestsTo(function (Request $request) {
             $host = $request->getHost();

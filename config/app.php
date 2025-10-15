@@ -128,8 +128,13 @@ return [
 
     'brand' => [
         'favicon' => env('APP_FAVICON'),
-        'logo' => env('APP_LOGO'),
-        'logo2' => env('APP_LOGO2'),
+        'logo' => [
+            'default' => env('APP_LOGO', '/app/img/logo.svg'),
+            'white' => env('APP_LOGO_WHITE', '/app/img/logo-white.svg'),
+            'dark' => env('APP_LOGO_DARK', '/app/img/logo-dark.svg'),
+            'icon' => env('APP_LOGO_ICON', '/app/img/logo-icon.svg'),
+            'auth' => env('APP_LOGO_AUTH', '/app/img/logo-auth.svg'),
+        ],
 
         'email' => env('APP_CONTACT_EMAIL'),
         'email2' => env('APP_CONTACT_EMAIL2'),

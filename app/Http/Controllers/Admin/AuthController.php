@@ -232,11 +232,14 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        // Logout the user from session
+        Auth::guard('web')->logout();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Logged out successfully',
-        ]);
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect('/');
+
     }
 }
