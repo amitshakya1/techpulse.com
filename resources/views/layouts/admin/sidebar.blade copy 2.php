@@ -16,7 +16,7 @@
 
     <div class="flex flex-col flex-1 overflow-y-auto">
         <!-- Sidebar Menu -->
-        <nav x-data="{ selected: '' }" class="flex-1 p-3">
+        <nav x-data="{ selected: $persist('Dashboard') }" class="flex-1 p-3">
             <!-- Main Navigation -->
             <ul class="space-y-1">
                 <!-- Dashboard -->
