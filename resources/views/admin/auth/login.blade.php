@@ -36,8 +36,8 @@
                                             <label for="checkboxLabelOne"
                                                 class="flex items-center text-sm font-normal text-gray-700 cursor-pointer select-none dark:text-gray-400">
                                                 <div class="relative">
-                                                    <input type="checkbox" id="checkboxLabelOne" class="sr-only"
-                                                        @change="checkboxToggle = !checkboxToggle" />
+                                                    <input type="checkbox" id="checkboxLabelOne" name="remember"
+                                                        class="sr-only" @change="checkboxToggle = !checkboxToggle" />
                                                     <div :class="checkboxToggle ? 'border-brand-500 bg-brand-500' :
                                                         'bg-transparent border-gray-300 dark:border-gray-700'"
                                                         class="mr-3 flex h-5 w-5 items-center justify-center rounded-md border-[1.25px]">
@@ -160,12 +160,9 @@
                             },
                         })
                         .then(response => {
-                            event.target.reset();
-                            if (response.data.success) {
-                                route("{{ route('admin.dashboard') }}");
-                            } else {
-                                alert(response.data.message);
-                            }
+                            const responseData = response.data;
+                            const redirectUrl = responseData.data?.redirect || "{{ route('admin.dashboard') }}";
+                            window.location.href = redirectUrl;
                         })
                         // Display errors
                         .catch(error => {

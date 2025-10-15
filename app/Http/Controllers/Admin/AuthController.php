@@ -74,13 +74,15 @@ class AuthController extends Controller
                 return $this->errorResponse('Invalid credentials.', 401);
             }
 
-            Auth::login($user, $request->filled('remember'));
+            // Login the user with remember me option
+            Auth::login($user, $request->boolean('remember', false));
 
-            // $token = $user->createToken('admin-auth')->plainTextToken;
+            // Regenerate session to prevent session fixation attacks
+            $request->session()->regenerate();
 
             return $this->successResponse([
-                // 'token' => $token,
                 'user' => $user,
+                'redirect' => route('admin.dashboard'),
             ], 'Login successful');
         } catch (\Exception $e) {
             return $this->errorResponse($e->getMessage(), 500);

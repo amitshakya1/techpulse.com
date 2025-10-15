@@ -11,7 +11,8 @@ use Illuminate\Console\Scheduling\Schedule;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\ResolveStore;
 use App\Http\Middleware\EnsureStoreSelected;
-use App\Traits\ApiResponseTrait;
+use Illuminate\Http\Request;
+// use App\Traits\ApiResponseTrait;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -23,25 +24,23 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'guest' => RedirectIfAuthenticated::class,
         ]);
-        $middleware->group('web', [
+
+        // Append to web middleware group (don't replace it!)
+        $middleware->appendToGroup('web', [
             ResolveStore::class,
             EnsureStoreSelected::class,
         ]);
 
-        $middleware->redirectGuestsTo(function () {
-            $request = request();
+        // Redirect guests based on subdomain
+        $middleware->redirectGuestsTo(function (Request $request) {
             $host = $request->getHost();
-
             // Redirect based on subdomain
             if (str_starts_with($host, 'admin.')) {
                 return route('admin.login');
             } elseif (str_starts_with($host, 'api.') || $request->expectsJson()) {
-                return ApiResponseTrait::errorResponse(
-                    'You are already authenticated.',
-                    403
-                );
+                return null;
             } else {
-                return redirect(config('app.url') . '/');
+                return '/';
             }
         });
     })
