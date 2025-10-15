@@ -34,12 +34,20 @@
             </button>
             <!-- Hamburger Toggle BTN -->
 
+            <a href="{{ route('admin.dashboard') }}">
+                <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
+                    <img class="dark:hidden" src="{{ config('app.brand.logo.default') }}" alt="Logo" />
+                    <img class="hidden dark:block" src="{{ config('app.brand.logo.dark') }}" alt="Logo" />
+                </span>
 
-
+                <img class="logo-icon" :class="sidebarToggle ? 'lg:block' : 'hidden'"
+                    src="{{ config('app.brand.logo.icon') }}" alt="Logo" />
+            </a>
+            {{-- 
             <a href="{{ route('admin.dashboard') }}" class="lg:hidden">
                 <img class="dark:hidden" src="{{ config('app.brand.logo.default') }}" alt="Logo" />
                 <img class="hidden dark:block" src="{{ config('app.brand.logo.dark') }}" alt="Logo" />
-            </a>
+            </a> --}}
 
             <!-- Application nav menu button -->
             <button
@@ -54,8 +62,8 @@
             </button>
             <!-- Application nav menu button -->
 
-            <div class="hidden lg:flex lg:flex-1 lg:justify-center lg:px-8">
-                <form class="w-full max-w-md">
+            <div class="hidden lg:block">
+                <form>
                     <div class="relative">
                         <span class="absolute top-1/2 left-4 -translate-y-1/2">
                             <svg class="fill-gray-500 dark:fill-gray-400" width="20" height="20"
@@ -66,7 +74,7 @@
                             </svg>
                         </span>
                         <input type="text" placeholder="Search or type command..." id="search-input"
-                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pr-14 pl-12 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30" />
+                            class="dark:bg-dark-900 shadow-theme-xs focus:border-brand-300 focus:ring-brand-500/10 dark:focus:border-brand-800 h-11 w-full rounded-lg border border-gray-200 bg-transparent py-2.5 pr-14 pl-12 text-sm text-gray-800 placeholder:text-gray-400 focus:ring-3 focus:outline-hidden xl:w-[430px] dark:border-gray-800 dark:bg-gray-900 dark:bg-white/[0.03] dark:text-white/90 dark:placeholder:text-white/30" />
 
                         <button id="search-button"
                             class="absolute top-1/2 right-2.5 inline-flex -translate-y-1/2 items-center gap-0.5 rounded-lg border border-gray-200 bg-gray-50 px-[7px] py-[4.5px] text-xs -tracking-[0.2px] text-gray-500 dark:border-gray-800 dark:bg-white/[0.03] dark:text-gray-400">
