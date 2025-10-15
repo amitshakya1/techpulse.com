@@ -12,7 +12,7 @@ class GenerateSitemap extends Command
      *
      * @var string
      */
-    protected $signature = 'sitemap:generate';
+    protected $signature = 'sitemap:generate {domain?}';
 
     /**
      * The console command description.
@@ -29,10 +29,10 @@ class GenerateSitemap extends Command
         $this->info('Generating sitemap for www subdomain...');
 
         // Build the www subdomain URL
-        $domain = config('app.domain');
+        $domain = 'www.' . ($domain = $this->argument('domain') ?? config('app.domain'));
         $protocol = config('app.env') === 'local' ? 'http' : 'https';
         $port = config('app.env') === 'local' ? ':8000' : '';
-        $wwwUrl = "{$protocol}://www.{$domain}{$port}";
+        $wwwUrl = "{$protocol}://{$domain}{$port}";
 
         $this->info("Crawling: {$wwwUrl}");
 
@@ -43,8 +43,8 @@ class GenerateSitemap extends Command
                 $wwwHost = parse_url($wwwUrl, PHP_URL_SCHEME) . '://' . parse_url($wwwUrl, PHP_URL_HOST);
                 return str_starts_with($urlHost, $wwwHost);
             })
-            ->writeToFile(public_path('sitemap.xml'));
+            ->writeToFile(public_path("sitemaps/{$domain}.xml"));
 
-        $this->info('✅ Sitemap generated successfully at public/sitemap.xml');
+        $this->info("✅ Sitemap generated successfully at public/sitemaps/{$domain}.xml");
     }
 }

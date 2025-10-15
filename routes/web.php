@@ -18,6 +18,3 @@ Route::domain('api.' . config('app.domain'))
     ->middleware('api')
     ->name('api.')
     ->group(base_path('routes/api.php'));
-
-// Route::get('login', [AuthenticatedSessionController::class, 'create'])
-//     ->name('login');

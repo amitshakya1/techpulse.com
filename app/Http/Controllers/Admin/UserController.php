@@ -14,7 +14,6 @@ class UserController extends Controller
     {
         // activity()->log('Look mum, I logged something');
         $user = Auth::user();
-        dd($user);
         return view('admin.dashboard', compact('user'));
     }
 
