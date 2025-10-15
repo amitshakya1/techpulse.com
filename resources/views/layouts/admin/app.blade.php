@@ -25,13 +25,14 @@
 <body x-data="{ page: 'ecommerce', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }" x-init="darkMode = JSON.parse(localStorage.getItem('darkMode'));
 $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))" :class="{ 'dark bg-gray-900': darkMode === true }">
     <x.admin-preloader />
+    @include('layouts.admin.header')
     <div class="flex h-screen overflow-hidden">
         @include('layouts.admin.sidebar')
 
         <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
             <x.admin-overlay />
 
-            @include('layouts.admin.header')
+
             <main>
                 <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
                     {{ $slot }}

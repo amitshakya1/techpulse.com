@@ -2,7 +2,7 @@
     class="sidebar fixed left-0 top-0 z-9999 flex h-screen w-[240px] flex-col overflow-y-hidden border-r border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900 lg:static lg:translate-x-0 transition-all duration-300 ease-in-out">
 
     <!-- Sidebar Header -->
-    <div class="flex items-center justify-center px-4 py-3 border-b border-gray-200 dark:border-gray-700">
+    {{-- <div class="flex items-center justify-center px-4 py-4 border-b border-gray-200 dark:border-gray-700">
         <a href="{{ route('admin.dashboard') }}">
             <span class="logo" :class="sidebarToggle ? 'hidden' : ''">
                 <img class="dark:hidden" src="{{ config('app.brand.logo.default') }}" alt="Logo" />
@@ -12,11 +12,11 @@
             <img class="logo-icon" :class="sidebarToggle ? 'lg:block' : 'hidden'"
                 src="{{ config('app.brand.logo.icon') }}" alt="Logo" />
         </a>
-    </div>
+    </div> --}}
 
     <div class="flex flex-col flex-1 overflow-y-auto">
         <!-- Sidebar Menu -->
-        <nav x-data="{ selected: $persist('Dashboard') }" class="flex-1 px-3 py-4">
+        <nav x-data="{ selected: $persist('Dashboard') }" class="flex-1 p-3">
             <!-- Main Navigation -->
             <ul class="space-y-1">
                 <!-- Dashboard -->
@@ -129,10 +129,9 @@
 
                         <svg :class="sidebarToggle ? 'lg:hidden' : ''"
                             class="ml-auto w-4 h-4 transition-transform duration-200"
-                            :class="selected === 'Forms' ? 'rotate-180' : ''" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M19 9l-7 7-7-7" />
+                            :class="selected === 'Forms' ? 'rotate-180' : ''" fill="none" stroke="currentColor"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </a>
 
