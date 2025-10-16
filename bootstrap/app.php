@@ -12,6 +12,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\ResolveStore;
 use App\Http\Middleware\EnsureStoreSelected;
 use Illuminate\Http\Request;
+use App\Http\Middleware\BlockScrapers;
 // use App\Traits\ApiResponseTrait;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -27,11 +28,20 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
 
         // Append to web middleware group (don't replace it!)
-        // $middleware->appendToGroup('web', [
-        //     ResolveStore::class,
-        //     EnsureStoreSelected::class,
-        // ]);
-    
+        $middleware->appendToGroup('web', [
+                // ResolveStore::class,
+                // EnsureStoreSelected::class,
+            BlockScrapers::class,
+        ]);
+
+        // Ensure HandleCors is in the API middleware group (it's included by default, but being explicit)
+        // Note: HandleCors is already in the global middleware stack in Laravel 11
+        // This configuration ensures CORS works for your API subdomain routing
+        $middleware->api(prepend: [
+            // HandleCors is automatically included via global middleware
+            // You can add additional API-specific middleware here if needed
+        ]);
+
         // Redirect guests based on subdomain
         $middleware->redirectGuestsTo(function (Request $request) {
             $host = $request->getHost();

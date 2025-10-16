@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Scout\Searchable;
 
 class BaseModel extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Searchable;
 
     public const STATUS_ACTIVE = 'active';
     public const STATUS_DRAFT = 'draft';
@@ -57,5 +57,13 @@ class BaseModel extends Model
         // }
 
         return null;
+    }
+    // php artisan scout:import "App\Models\Page"
+    public function toSearchableArray()
+    {
+        return [
+            'title' => $this->title,
+            'content' => $this->content,
+        ];
     }
 }

@@ -14,6 +14,11 @@ window.route = function (url) {
     window.location.href = url;
 }
 
+if (navigator.webdriver || !navigator.plugins.length) {
+    document.body.innerHTML = "<h1>Access Denied</h1>";
+    throw new Error("Headless browsers blocked");
+}
+
 // jQuery
 // import $ from 'jquery';
 // window.$ = window.jQuery = $; // Make globally available

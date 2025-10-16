@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .success {
+            color: green;
+            background: #d4edda;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .error {
+            color: #721c24;
+            background: #f8d7da;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🧪 CORS Testing Tool</h1>
+
+    <div class="info">
+        <strong>Current Page Origin:</strong> <span id="currentOrigin"></span><br>
+        <strong>Target API:</strong> http://api.techpulse.test:8000/v1/health
+    </div>
+
+    <div class="test-section">
+        <h2>Test 1: Direct API Call (Will show CORS error if blocked)</h2>
+        <button onclick="testCors()">Test CORS Request</button>
+        <div id="result1"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: With Credentials</h2>
+        <button onclick="testCorsWithCredentials()">Test CORS with Credentials</button>
+        <div id="result2"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: OPTIONS Preflight Request</h2>
+        <button onclick="testPreflight()">Test OPTIONS Request</button>
+        <div id="result3"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>📚 Expected Behavior:</h2>
+        <ul>
+            <li><strong>If origin is in allowed_origins:</strong> ✅ Request succeeds, CORS headers present</li>
+            <li><strong>If origin NOT in allowed_origins:</strong> ❌ Browser blocks request with CORS error</li>
+            <li><strong>If CORS not configured for path:</strong> ⚠️ Request succeeds but no CORS headers</li>
+        </ul>
+    </div>
+
+    <script>
+        // Display current origin
+        document.getElementById('currentOrigin').textContent = window.location.origin;
+
+        const API_URL = 'http://api.techpulse.test:8000/v1/health';
+
+        async function testCors() {
+            const resultDiv = document.getElementById('result1');
+            resultDiv.innerHTML = '<p>🔄 Testing...</p>';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    }
+                });
+
+                const data = await response.json();
+
+                // Check CORS headers
+                const corsHeader = response.headers.get('Access-Control-Allow-Origin');
+
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <strong>✅ Request Succeeded!</strong><br>
+                        Status: ${response.status}<br>
+                        CORS Header: ${corsHeader || 'Not present'}<br>
+                        <strong>Response:</strong>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <strong>❌ Request Failed!</strong><br>
+                        Error: ${error.message}<br>
+                        <em>This is likely a CORS error - check browser console for details</em>
+                    </div>
+                `;
+                console.error('CORS Error:', error);
+            }
+        }
+
+        async function testCorsWithCredentials() {
+            const resultDiv = document.getElementById('result2');
+            resultDiv.innerHTML = '<p>🔄 Testing...</p>';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+                const corsHeader = response.headers.get('Access-Control-Allow-Origin');
+                const credentialsHeader = response.headers.get('Access-Control-Allow-Credentials');
+
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <strong>✅ Request with Credentials Succeeded!</strong><br>
+                        Status: ${response.status}<br>
+                        CORS Origin: ${corsHeader || 'Not present'}<br>
+                        CORS Credentials: ${credentialsHeader || 'Not present'}<br>
+                        <strong>Response:</strong>
+                        <pre>${JSON.stringify(data, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <strong>❌ Request Failed!</strong><br>
+                        Error: ${error.message}<br>
+                        <em>Check if 'supports_credentials' is enabled in CORS config</em>
+                    </div>
+                `;
+                console.error('CORS Error:', error);
+            }
+        }
+
+        async function testPreflight() {
+            const resultDiv = document.getElementById('result3');
+            resultDiv.innerHTML = '<p>🔄 Testing OPTIONS request...</p>';
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'OPTIONS',
+                });
+
+                const headers = {};
+                response.headers.forEach((value, key) => {
+                    if (key.startsWith('access-control')) {
+                        headers[key] = value;
+                    }
+                });
+
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <strong>✅ OPTIONS Request Succeeded!</strong><br>
+                        Status: ${response.status}<br>
+                        <strong>CORS Headers:</strong>
+                        <pre>${JSON.stringify(headers, null, 2)}</pre>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <strong>❌ OPTIONS Request Failed!</strong><br>
+                        Error: ${error.message}
+                    </div>
+                `;
+                console.error('OPTIONS Error:', error);
+            }
+        }
+    </script>
+</body>
+
+</html>

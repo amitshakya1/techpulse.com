@@ -7,7 +7,21 @@ use Illuminate\Support\Facades\Route;
 // Public API routes (no authentication required)
 Route::prefix('v1')->group(function () {
     Route::get('health', function () {
-        return response()->json(['status' => 'ok', 'timestamp' => now()]);
+        return response()->json([
+            'status' => 'ok',
+            'timestamp' => now(),
+            'message' => 'API is running with CORS enabled',
+        ]);
+    });
+
+    // CORS test endpoint
+    Route::get('test-cors', function () {
+        return response()->json([
+            'success' => true,
+            'message' => 'CORS is working correctly!',
+            'origin' => request()->header('Origin'),
+            'timestamp' => now(),
+        ]);
     });
 });
 
