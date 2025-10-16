@@ -11,6 +11,24 @@
     <meta name="keywords" content="{{ $keywords }}">
     <meta name="author" content="{{ $author }}">
 
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('app/img/favicon.png') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ asset('app/img/favicon.png') }}">
+
+    <!-- Theme color for mobile browsers -->
+    <meta name="theme-color" content="#0d6efd">
+
+    <meta property="og:title" content="{{ config('app.name', 'Tech Pulse') }}">
+    <meta property="og:description" content="Tech Pulse - Your description here">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ asset('app/img/favicon.png') }}">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ config('app.name', 'Tech Pulse') }}">
+    <meta name="twitter:description" content="Tech Pulse - Your description here">
+    <meta name="twitter:image" content="{{ asset('app/img/favicon.png') }}">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />

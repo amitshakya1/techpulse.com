@@ -13,6 +13,7 @@ class UserController extends Controller
     public function dashboard()
     {
         // activity()->log('Look mum, I logged something');
+        // Mail::to($user->email)->queue(new OrderPlacedMail($order));
         $user = Auth::user();
         return view('admin.dashboard', compact('user'));
     }

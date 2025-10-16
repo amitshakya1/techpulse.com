@@ -7,6 +7,12 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="icon" href="{{ config('app.brand.favicon') }}" type="image/x-icon">
+    <link rel="apple-touch-icon" href="{{ config('app.brand.favicon') }}">
+
+    <meta name="theme-color" content="#0d6efd">
+
+    <meta name="robots" content="noindex, nofollow">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

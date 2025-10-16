@@ -11,8 +11,9 @@ use Illuminate\Console\Scheduling\Schedule;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Middleware\ResolveStore;
 use App\Http\Middleware\EnsureStoreSelected;
-use Illuminate\Http\Request;
+use App\Http\Middleware\CheckApiKey;
 use App\Http\Middleware\BlockScrapers;
+use Illuminate\Http\Request;
 // use App\Traits\ApiResponseTrait;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -25,6 +26,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'guest' => RedirectIfAuthenticated::class,
+            'api.key' => CheckApiKey::class,
         ]);
 
         // Append to web middleware group (don't replace it!)
