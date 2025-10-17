@@ -9,7 +9,8 @@ use Laravel\Scout\Searchable;
 
 class BaseModel extends Model
 {
-    use HasFactory, SoftDeletes, Searchable;
+    use HasFactory, SoftDeletes;
+    // use Searchable;
 
     public const STATUS_ACTIVE = 'active';
     public const STATUS_DRAFT = 'draft';
@@ -59,11 +60,11 @@ class BaseModel extends Model
         return null;
     }
     // php artisan scout:import "App\Models\Page"
-    public function toSearchableArray()
-    {
-        return [
-            'title' => $this->title,
-            'content' => $this->content,
-        ];
-    }
+    // public function toSearchableArray()
+    // {
+    //     return [
+    //         'title' => $this->title,
+    //         'content' => $this->content,
+    //     ];
+    // }
 }

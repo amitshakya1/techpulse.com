@@ -35,4 +35,25 @@ return [
         ],
     ],
 
+    'exchangerates' => [
+        'api_key' => env('EXCHANGERATES_API_KEY'),
+        'api_url' => env('EXCHANGERATES_API_URL'),
+    ],
+
+    'metalrates' => [
+        'api_key' => env('METALRATES_API_KEY'),
+        'api_url' => env('METALRATES_API_URL'),
+    ],
+
+    'gst' => [
+        'host' => env('GST_HOST', 'https://einv-apisandbox.nic.in'),
+        'username' => env('GST_API_USERNAME'),
+        'password' => env('GST_API_PASSWORD'),
+        'client_id' => env('GST_CLIENT_ID'),
+        'client_secret' => env('GST_CLIENT_SECRET'),
+        'gstin' => env('GSTIN'),
+        'token_ttl' => env('GST_TOKEN_TTL', 360),
+    ],
+
+
 ];

@@ -46,7 +46,8 @@
         },
         "files": [
             "app/Helpers/strings.php",
-            "app/Helpers/geoip.php"
+            "app/Helpers/geoip.php",
+            "app/Helpers/exchangerate.php"
         ]
     },
     "autoload-dev": {

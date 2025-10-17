@@ -10,13 +10,17 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use App\Models\User;
+use App\Jobs\MetalRateJob;
 
 class AuthController extends Controller
 {
     public function showLogin()
     {
-        $location = getIpLocation();
+        // MetalRateJob::dispatch();
+        // $location = getIpLocation();
         // dd($location);
+        // $rate = getExchangeRate('AED', 'INR');
+        // echo "1 AED = $rate INR";
         return view('admin.auth.login');
     }
 
