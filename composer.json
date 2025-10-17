@@ -11,6 +11,7 @@
     "require": {
         "php": "^8.3",
         "cviebrock/eloquent-sluggable": "^12.0",
+        "geoip2/geoip2": "^3.2",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/scout": "^10.20",
@@ -44,7 +45,8 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/strings.php"
+            "app/Helpers/strings.php",
+            "app/Helpers/geoip.php"
         ]
     },
     "autoload-dev": {

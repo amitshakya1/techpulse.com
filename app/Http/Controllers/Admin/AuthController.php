@@ -15,6 +15,8 @@ class AuthController extends Controller
 {
     public function showLogin()
     {
+        $location = getIpLocation();
+        // dd($location);
         return view('admin.auth.login');
     }
 
