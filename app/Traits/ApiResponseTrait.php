@@ -59,4 +59,17 @@ trait ApiResponseTrait
             ],
         ]);
     }
+
+    public function paginateResponse($items, string $message = 'Data fetched successfully')
+    {
+        return $this->successResponse([
+            'items' => $items->items(),
+            'pagination' => [
+                'current_page' => $items->currentPage(),
+                'last_page' => $items->lastPage(),
+                'per_page' => $items->perPage(),
+                'total' => $items->total(),
+            ]
+        ], $message);
+    }
 }

@@ -14,7 +14,7 @@ use App\Http\Middleware\EnsureStoreSelected;
 use App\Http\Middleware\CheckApiKey;
 use App\Http\Middleware\BlockScrapers;
 use Illuminate\Http\Request;
-// use App\Traits\ApiResponseTrait;
+use App\Traits\ApiResponseTrait;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -70,7 +70,7 @@ return Application::configure(basePath: dirname(__DIR__))
     
                 if ($e instanceof HttpException) {
                     $statusCode = $e->getStatusCode();
-                } elseif ($e instanceof NotFoundHttpException) {
+                } elseif ($e instanceof NotFoundHttpException || $e instanceof ModelNotFoundException) {
                     $statusCode = 404;
                 } elseif ($e instanceof AccessDeniedHttpException) {
                     $statusCode = 403;
@@ -98,11 +98,7 @@ return Application::configure(basePath: dirname(__DIR__))
                         503 => 'Service unavailable',
                         default => $e->getMessage() ?: 'An error occurred',
                     };
-
-                    return response()->json([
-                        'message' => $message,
-                        'status' => $statusCode
-                    ], $statusCode);
+                    return ApiResponseTrait::errorResponse($message, $statusCode);
                 }
 
                 // Check if custom error view exists for this subdomain and status code
