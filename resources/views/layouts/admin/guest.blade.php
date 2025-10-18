@@ -27,21 +27,21 @@
 $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))" :class="{ 'dark bg-gray-900': darkMode === true }">
     <x-admin.preloader />
     <div class="relative p-6 bg-white z-1 dark:bg-gray-900 sm:p-0">
-        <div class="relative flex flex-col justify-center w-full h-screen dark:bg-gray-900 sm:p-0 lg:flex-row">
+        <div class="relative flex flex-col w-full h-screen dark:bg-gray-900 sm:p-0 lg:flex-row">
             <!-- Form -->
-            <div class="flex flex-col flex-1 w-full lg:w-1/2">
-                <div class="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
+            <div class="flex flex-col flex-1 w-full lg:w-1/2 overflow-y-auto">
+                <div class="flex flex-col justify-center  w-full max-w-md mx-auto">
                     <div class="w-full max-w-md py-5 mx-auto">
                         @if (request()->route()->getName() !== 'admin.login')
-                            <div class="w-full max-w-md py-2 mx-auto">
+                            <div class="w-full max-w-md py-2 mx-auto mb-4">
                                 <a href="{{ route('admin.login') }}"
                                     class="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
                                     <svg class="stroke-current" xmlns="http://www.w3.org/2000/svg" width="20"
                                         height="20" viewBox="0 0 20 20" fill="none">
-                                        <path d="M12.7083 5L7.5 10.2083L12.7083 15.4167" stroke=""
+                                        <path d="M12.7083 5L7.5 10.2083L12.7083 15.4167" stroke="currentColor"
                                             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                                     </svg>
-                                    Back to login
+                                    <span class="ml-2">Back to login</span>
                                 </a>
                             </div>
                         @endif

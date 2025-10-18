@@ -1,6 +1,6 @@
 <x-admin.guest-layout>
     @php
-        $formName = 'login-form';
+        $formName = 'register-form';
     @endphp
 
     <div class="mb-5 sm:mb-8">
@@ -27,7 +27,7 @@
             </div>
 
             <div>
-                <x-admin.form.button name="Sign In" />
+                <x-admin.form.button name="Sign Up" />
             </div>
         </form>
         <div id="{{ $formName }}-message"
@@ -79,10 +79,11 @@
 
                     try {
 
-                        const response = await api.post('{{ route('admin.login') }}', payload);
+                        const response = await api.post('{{ route('admin.register') }}', payload);
 
                         // Show success message (optional)
-                        apiHelpers.showSuccessMessage('Login successfully!  Redirecting...', 'success-message', 1000);
+                        apiHelpers.showSuccessMessage('Registration successful! Redirecting...', 'success-message',
+                            1000);
 
                         // Redirect after short delay
                         setTimeout(() => {
