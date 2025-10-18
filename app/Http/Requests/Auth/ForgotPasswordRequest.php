@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\Auth;
+namespace App\Http\Requests\Auth;
 
 use App\Http\Requests\BaseFormRequest;
 
-class LoginRequest extends BaseFormRequest
+class ForgotPasswordRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -13,7 +13,6 @@ class LoginRequest extends BaseFormRequest
     {
         return [
             'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
         ];
     }
 
@@ -25,7 +24,6 @@ class LoginRequest extends BaseFormRequest
         return [
             'email.required' => 'Please enter your email address.',
             'email.email' => 'Please enter a valid email address.',
-            'password.required' => 'Please enter your password.',
         ];
     }
 }

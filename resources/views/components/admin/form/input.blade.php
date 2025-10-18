@@ -3,7 +3,7 @@
     'type' => 'text',
     'name' => '',
     'placeholder' => '',
-    'id' => '',
+    'id' => null,
 ])
 @php
     $class =
@@ -14,7 +14,7 @@
 @if ($type === 'password')
     <div x-data="{ showPassword: false }" class="relative">
         <input :type="showPassword ? 'text' : 'password'" name="{{ $name }}" placeholder="{{ $placeholder }}"
-            class="{{ $class }}" id="{{ $id }}" />
+            class="{{ $class }}" id="{{ $id ?: $name }}" />
         <span @click="showPassword = !showPassword"
             class="absolute z-30 text-gray-500 -translate-y-1/2 cursor-pointer right-4 top-1/2 dark:text-gray-400">
             <svg x-show="!showPassword" class="fill-current" width="20" height="20" viewBox="0 0 20 20"
@@ -33,6 +33,6 @@
     </div>
 @else
     <input type="{{ $type }}" name="{{ $name }}" placeholder="{{ $placeholder }}"
-        id="{{ $id }}" {{ $attributes->merge(['class' => $class]) }} />
+        id="{{ $id ?: $name }}" {{ $attributes->merge(['class' => $class]) }} />
 @endif
 <x-admin.form.error name="{{ $name }}" />
