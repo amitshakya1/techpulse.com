@@ -1,6 +1,6 @@
 <div x-data="{ showPassword: false }" class="relative">
     <input :type="showPassword ? 'text' : 'password'" name="{{ $name }}" placeholder="{{ $placeholder }}"
-        class="dark:bg-dark-900 h-11 w-full rounded-lg border border-gray-300 bg-transparent px-4 py-2.5 text-sm text-gray-800 shadow-theme-xs placeholder:text-gray-400 focus:border-brand-300 focus:outline-hidden focus:ring-3 focus:ring-brand-500/10 dark:border-gray-700 dark:bg-gray-900 dark:text-white/90 dark:placeholder:text-white/30 dark:focus:border-brand-800" />
+        class="form-input" />
     <span @click="showPassword = !showPassword"
         class="absolute z-30 text-gray-500 -translate-y-1/2 cursor-pointer right-4 top-1/2 dark:text-gray-400">
         <svg x-show="!showPassword" class="fill-current" width="20" height="20" viewBox="0 0 20 20" fill="none"
@@ -17,4 +17,4 @@
         </svg>
     </span>
 </div>
-<span class="{{ $name }}-error text-red-500"></span>
+<x-admin.form.error name="{{ $name }}" />

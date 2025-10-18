@@ -3,17 +3,7 @@
         <div class="relative flex flex-col justify-center w-full h-screen dark:bg-gray-900 sm:p-0 lg:flex-row">
             <!-- Form -->
             <div class="flex flex-col flex-1 w-full lg:w-1/2">
-                <div class="w-full max-w-md pt-10 mx-auto">
-                    <a href="index.html"
-                        class="inline-flex items-center text-sm text-gray-500 transition-colors hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300">
-                        <svg class="stroke-current" xmlns="http://www.w3.org/2000/svg" width="20" height="20"
-                            viewBox="0 0 20 20" fill="none">
-                            <path d="M12.7083 5L7.5 10.2083L12.7083 15.4167" stroke="" stroke-width="1.5"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        Back to dashboard
-                    </a>
-                </div>
+
                 <div class="flex flex-col justify-center flex-1 w-full max-w-md mx-auto">
                     <div>
                         <div class="mb-5 sm:mb-8">
@@ -27,9 +17,20 @@
                         </div>
                         <div>
                             <x-admin.social-login />
-                            <form id="login-form">
+
+                            <form id="register-form">
                                 <div class="space-y-5">
                                     <!-- Email -->
+                                    <div>
+                                        <x-admin.form.label label="Name" required />
+                                        <x-admin.form.input type="text" name="name"
+                                            placeholder="Enter your name" />
+                                    </div>
+                                    <div>
+                                        <x-admin.form.label label="Phone" required />
+                                        <x-admin.form.input type="tel" name="phone"
+                                            placeholder="Enter your phone number" class="phone-number-input" />
+                                    </div>
                                     <div>
                                         <x-admin.form.label label="Email" required />
                                         <x-admin.form.input type="email" name="email"
@@ -40,34 +41,6 @@
                                         <x-admin.form.label label="Password" required />
                                         <x-admin.form.password name="password" placeholder="Please enter password" />
                                     </div>
-                                    <!-- Checkbox -->
-                                    <div class="flex items-center justify-between">
-                                        <div x-data="{ checkboxToggle: false }">
-                                            <label for="checkboxLabelOne"
-                                                class="flex items-center text-sm font-normal text-gray-700 cursor-pointer select-none dark:text-gray-400">
-                                                <div class="relative">
-                                                    <input type="checkbox" id="checkboxLabelOne" class="sr-only"
-                                                        @change="checkboxToggle = !checkboxToggle" />
-                                                    <div :class="checkboxToggle ? 'border-brand-500 bg-brand-500' :
-                                                        'bg-transparent border-gray-300 dark:border-gray-700'"
-                                                        class="mr-3 flex h-5 w-5 items-center justify-center rounded-md border-[1.25px]">
-                                                        <span :class="checkboxToggle ? '' : 'opacity-0'">
-                                                            <svg width="14" height="14" viewBox="0 0 14 14"
-                                                                fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                <path d="M11.6666 3.5L5.24992 9.91667L2.33325 7"
-                                                                    stroke="white" stroke-width="1.94437"
-                                                                    stroke-linecap="round" stroke-linejoin="round" />
-                                                            </svg>
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                Keep me logged in
-                                            </label>
-                                        </div>
-                                        <a href="/reset-password.html"
-                                            class="text-sm text-brand-500 hover:text-brand-600 dark:text-brand-400">Forgot
-                                            password?</a>
-                                    </div>
                                     <!-- Button -->
                                     <div>
                                         <button type="submit"
@@ -75,13 +48,20 @@
                                             Sign In
                                         </button>
                                     </div>
+                                    <div id="loginErrorMessage"
+                                        class="hidden max-w-md mx-auto mb-4 p-4 border border-red-400 bg-red-50 text-red-700 rounded-lg shadow-sm relative">
+                                        <button type="button" id="closeErrorBtn"
+                                            class="absolute top-2 right-2 text-red-700 hover:text-red-900 font-bold">&times;</button>
+                                    </div>
+
+
                                 </div>
                             </form>
                             <div class="mt-5">
                                 <p
                                     class="text-sm font-normal text-center text-gray-700 dark:text-gray-400 sm:text-start">
                                     Don't have an account?
-                                    <a href="/signup.html"
+                                    <a href="{{ route('admin.register') }}"
                                         class="text-brand-500 hover:text-brand-600 dark:text-brand-400">Sign Up</a>
                                 </p>
                             </div>
@@ -96,7 +76,7 @@
                     <x-admin.common-grid-shape />
                     <div class="flex flex-col items-center max-w-xs">
                         <a href="index.html" class="block mb-4">
-                            <img src="{{ config('app.brand.logo') }}" alt="{{ config('app.name') }}" />
+                            <img src="{{ config('app.brand.logo.dark') }}" alt="{{ config('app.name') }}" />
                         </a>
                         <p class="text-center text-gray-400 dark:text-white/60">
                             Free and Open-Source Tailwind CSS Admin Dashboard Template
@@ -123,14 +103,26 @@
                     </svg>
                 </button>
             </div>
+
         </div>
     </div>
     @push('script')
-        <script src="https://cdn.jsdelivr.net/npm/just-validate@4.3.0/dist/just-validate.production.min.js"></script>
         <script>
-            const validation = new JustValidate('#login-form');
+            const validation = new JustValidate('#register-form');
 
             validation
+                .addField('input[name="name"]', [{
+                    rule: 'required',
+                    errorMessage: 'Please enter your name',
+                }], {
+                    errorsContainer: '.name-error'
+                })
+                .addField('input[name="phone"]', [{
+                    rule: 'required',
+                    errorMessage: 'Please enter phone number',
+                }], {
+                    errorsContainer: '.phone-error'
+                })
                 .addField('input[name="email"]', [{
                         rule: 'required',
                         errorMessage: 'Please enter email',
@@ -150,20 +142,74 @@
                 })
                 .onSuccess((event) => {
                     event.preventDefault(); // ✅ Prevent default form submission
-                    let formData = new FormData(event.target);
+                    const phoneInput = document.querySelector('input[name="phone"]');
+                    const iti = window.intlTelInputGlobals.getInstance(phoneInput);
+                    if (!iti.isValidNumber()) {
+                        document.querySelector('.phone-error').innerHTML = 'Please enter a valid phone number';
+                        return;
+                    }
+                    const formData = new FormData(event.target);
+                    formData.set('phone', iti.getNumber());
 
-                    fetch('{{ route('admin.login') }}', {
-                            method: 'POST',
-                            body: formData
+                    const payload = Object.fromEntries(formData.entries());
+                    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                    axios.post('{{ route('admin.login') }}', payload, {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json',
+                                'X-CSRF-TOKEN': csrfToken,
+                            },
                         })
-                        .then(res => res.json())
-                        .then(data => {
-                            event.target.reset();
-                            alert(data.message);
+                        .then(response => {
+                            const responseData = response.data;
+                            const redirectUrl = responseData.data?.redirect || "{{ route('admin.dashboard') }}";
+                            window.location.href = redirectUrl;
                         })
-                        .catch(err => {
-                            alert('Something went wrong');
+                        // Display errors
+                        .catch(error => {
+                            const errorDiv = document.getElementById('loginErrorMessage');
+                            const closeBtn = document.getElementById('closeErrorBtn');
+                            errorDiv.innerHTML = ''; // clear previous errors
+
+                            // Re-add close button (needed because innerHTML cleared it)
+                            errorDiv.innerHTML =
+                                `<button type="button" id="closeErrorBtn" class="absolute top-2 right-2 text-red-700 hover:text-red-900 font-bold">&times;</button>`;
+
+                            if (error.response) {
+                                const res = error.response.data;
+                                errorDiv.classList.remove('hidden');
+
+                                let html = `<p class="font-semibold mb-2">${res.message || 'An error occurred.'}</p>`;
+
+                                if (res.errors) {
+                                    html += '<ul class="list-disc list-inside space-y-1">';
+                                    for (const field in res.errors) {
+                                        if (res.errors.hasOwnProperty(field)) {
+                                            res.errors[field].forEach(msg => {
+                                                html += `<li>${msg}</li>`;
+                                            });
+                                        }
+                                    }
+                                    html += '</ul>';
+                                }
+
+                                errorDiv.innerHTML += html; // append messages below the button
+
+                                // Re-attach close button click handler
+                                document.getElementById('closeErrorBtn').addEventListener('click', () => {
+                                    errorDiv.classList.add('hidden');
+                                });
+                            } else {
+                                errorDiv.classList.remove('hidden');
+                                errorDiv.innerHTML +=
+                                    '<p class="font-semibold">Something went wrong. Please try again.</p>';
+                                document.getElementById('closeErrorBtn').addEventListener('click', () => {
+                                    errorDiv.classList.add('hidden');
+                                });
+                            }
                         });
+
+
                 });
         </script>
     @endpush
